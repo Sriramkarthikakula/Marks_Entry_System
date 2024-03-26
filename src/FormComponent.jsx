@@ -7,7 +7,14 @@ import Mid2Component from './Mid2';
 
 
 function Input(params){
-  return (<div><input type='text' placeholder={params.Qnum} name={params.Qnum} onChange={params.Changeres} value={params.Qval}></input><br></br></div>);
+  return (
+    <div>
+      <div >
+        <label>{params.Qnum}:</label>
+        <input type='text' placeholder={params.Qnum} name={params.Qnum} onChange={params.Changeres} value={params.Qval}></input><br></br>
+      </div><br></br>
+    </div>
+  );
 }
 
 
@@ -38,6 +45,14 @@ const FormComponent = () => {
     const names = e.target.name;
     const value = e.target.value;
     if (value == 1){
+      let que1 = names+'a';
+      let que2 = names+'b';
+      if(formData.hasOwnProperty(que1) && formData.hasOwnProperty(que2)){
+        setFormData(prevFormData => {
+          const { [que1]: _, [que2]: __, ...rest } = prevFormData;
+          return rest;
+        });
+      }
       setFormData(prevFormData => ({
         ...prevFormData,
         [names]: ''
@@ -48,9 +63,14 @@ const FormComponent = () => {
       }));
     }
     else if(value == 2){
-      const orname = names[1];
-      const a = orname+'a';
-      const b = orname+'b';
+      if(formData.hasOwnProperty(names)){
+        setFormData(prevFormData => {
+          const { [names]: _,  ...rest } = prevFormData;
+          return rest;
+        });
+      }
+      const a = names+'a';
+      const b = names+'b';
       setFormData(prevFormData => ({
         ...prevFormData,
         [a]: '',
